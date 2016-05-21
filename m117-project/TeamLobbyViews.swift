@@ -15,9 +15,6 @@ class PlayerDraggableView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        var panRecognizer = UIPanGestureRecognizer(target:self, action:"detectPan:")
-        self.gestureRecognizers = [panRecognizer]
-        
         let blueValue = CGFloat(Int(arc4random() % 255)) / 255.0
         let greenValue = CGFloat(Int(arc4random() % 255)) / 255.0
         let redValue = CGFloat(Int(arc4random() % 255)) / 255.0
@@ -25,43 +22,49 @@ class PlayerDraggableView: UIView {
         self.backgroundColor = UIColor(red:redValue, green: greenValue, blue: blueValue, alpha: 1.0)
     }
     
+    func moveToPoint(point: CGPoint, duration: NSTimeInterval) {
+        var newFrame = self.frame
+        newFrame.origin.x = point.x - self.frame.width/2
+        newFrame.origin.y = point.y - self.frame.height/2
+        
+        UIView.animateWithDuration(duration, animations: {
+            self.frame = newFrame
+        })
+        
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func detectPan(recognizer: UIPanGestureRecognizer) {
-        var translation = recognizer.translationInView(self.superview!)
-        self.center = CGPointMake(lastLocation.x + translation.x, lastLocation.y + translation.y)
+    /*
+     // Only override drawRect: if you perform custom drawing.
+     // An empty implementation adversely affects performance during animation.
+     override func drawRect(rect: CGRect) {
+     // Drawing code
+     }
+     */
+}
+
+@IBDesignable
+class PlayerDraggableContainer: UIView {
+    
+    @IBInspectable
+    var numPlayers: Int = 4
+    
+    var playerWidth: CGFloat{
+        return self.bounds.width/6.5
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.superview?.bringSubviewToFront(self)
-        lastLocation = self.center
+    var gapBetweenPlayers: CGFloat {
+        return self.bounds.width/13.0
     }
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+    
     override func drawRect(rect: CGRect) {
-        // Drawing code
     }
-    */
 }
-//
-//class PlayerDraggableContainer: UIView {
-//    
-//    var numPlayers: Int = 4
-//    var playerWidth: CGFloat = 40.0
-//    var width: CGFloat {
-//        return 6.5 * playerWidth
-//    }
-//    
-//    private func pathForContainer() -> UIBezierPath {
-//        return UIBezierPath(rect: CGRect(x: playerWidth*0.5, y: CGFloat(100.0), width: width, height: CGFloat(20.0)))
-//    }
-//    
-//    override func drawRect(rect: CGRect) {
-//        UIColor.blueColor().set()
-//        pathForContainer().fill()
-//    }
-//}
+
+@IBDesignable
+class LockedInContainer: UIView {
+    
+}

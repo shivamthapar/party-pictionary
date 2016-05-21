@@ -20,6 +20,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-aR-CDm">
                                 <rect key="frame" x="278" y="305" width="30" height="30"/>
                                 <state key="normal" title="Play"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="185" y="305" width="30" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="Ilr-7n-9Qa" kind="show" id="Tea-8S-7gK"/>
                                 </connections>
@@ -27,6 +30,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCU-z1-IBg">
                                 <rect key="frame" x="265" y="355" width="57" height="30"/>
                                 <state key="normal" title="Settings"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="171" y="355" width="57" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="3Yl-bH-Ht7" kind="show" id="gGW-Od-cbu"/>
                                 </connections>
@@ -57,6 +63,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="143" y="114" width="113" height="21"/>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -83,10 +92,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="64" y="114" width="272" height="21"/>
+                                </variation>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZB-hX-nr9">
                                 <rect key="frame" x="137" y="408" width="39" height="30"/>
                                 <state key="normal" title="Temp"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="180" y="408" width="39" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="MTc-sd-f2b" kind="show" id="sv0-C5-Z2a"/>
                                 </connections>
@@ -116,6 +131,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="143" y="122" width="113" height="21"/>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -142,6 +160,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="145" y="244" width="110" height="21"/>
+                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,6 +187,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5D6-Va-bxk">
                                 <rect key="frame" x="179" y="391" width="166" height="30"/>
                                 <state key="normal" title="Make sure bluetooth on!"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="117" y="391" width="166" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="show" id="1Lj-dU-xfL"/>
                                 </connections>
@@ -200,7 +224,7 @@
         <!--Team Lobby View Controller-->
         <scene sceneID="ehr-MC-eue">
             <objects>
-                <viewController id="MTc-sd-f2b" customClass="TeamLobbyViewController" customModule="m117_project" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MTc-sd-f2b" customClass="TeamLobbyViewController" customModule="m117_project" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TOj-Xn-HrX"/>
                         <viewControllerLayoutGuide type="bottom" id="wMz-aX-0dc"/>
@@ -210,26 +234,97 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ra-Eu-nrd">
-                                <rect key="frame" x="321" y="470" width="39" height="30"/>
+                                <rect key="frame" x="280" y="470" width="39" height="30"/>
                                 <state key="normal" title="Temp"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="70" y="725" width="39" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="RCO-kC-PZf" kind="show" id="crb-ET-JuK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F0G-t2-5kf">
-                                <rect key="frame" x="290" y="508" width="101" height="30"/>
+                                <rect key="frame" x="249" y="508" width="101" height="30"/>
                                 <state key="normal" title="Game Settings"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="229" y="725" width="101" height="30"/>
+                                </variation>
                                 <connections>
                                     <segue destination="HQ6-Jc-hVo" kind="show" id="SX7-xL-lZ1"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J2X-9B-84p" customClass="PlayerDraggableContainer" customModule="m117_project" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="numPlayers">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="70" y="363" width="260" height="75"/>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baC-DZ-2FI" customClass="LockedInContainer" customModule="m117_project" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.51186259150000002" blue="0.4444989245" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="292" y="87" width="88" height="84"/>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="80O-9X-EUw" customClass="LockedInContainer" customModule="m117_project" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.51186259150000002" blue="0.4444989245" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="87" width="88" height="84"/>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="skd-6X-ef8" customClass="LockedInContainer" customModule="m117_project" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.51186259150000002" blue="0.4444989245" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="292" y="548" width="88" height="84"/>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bc2-Qh-Den" customClass="LockedInContainer" customModule="m117_project" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.51186259150000002" blue="0.4444989245" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="548" width="88" height="84"/>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="J2X-9B-84p"/>
+                                <exclude reference="baC-DZ-2FI"/>
+                                <exclude reference="80O-9X-EUw"/>
+                                <exclude reference="skd-6X-ef8"/>
+                                <exclude reference="Bc2-Qh-Den"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="J2X-9B-84p"/>
+                                <include reference="baC-DZ-2FI"/>
+                                <include reference="80O-9X-EUw"/>
+                                <include reference="skd-6X-ef8"/>
+                                <include reference="Bc2-Qh-Den"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="p1Lock" destination="80O-9X-EUw" id="tdX-di-z0g"/>
+                        <outlet property="p2Lock" destination="baC-DZ-2FI" id="wJF-ox-5Fm"/>
+                        <outlet property="p3Lock" destination="Bc2-Qh-Den" id="pfz-RO-AU2"/>
+                        <outlet property="p4Lock" destination="skd-6X-ef8" id="7HL-Av-shG"/>
+                        <outlet property="playersContainer" destination="J2X-9B-84p" id="MDb-Wp-xrO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Scz-On-A1h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="572" y="1288"/>
+            <point key="canvasLocation" x="571.5" y="1287.75"/>
         </scene>
         <!--Countdown View Controller-->
         <scene sceneID="v67-JJ-BTq">
@@ -243,19 +338,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snF-Hz-7h9">
-                                <rect key="frame" x="281" y="470" width="39" height="30"/>
-                                <state key="normal" title="Temp"/>
-                                <connections>
-                                    <segue destination="0vq-kb-7YA" kind="show" id="8GC-la-Fgl"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3...2...1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsK-uD-4W1">
                                 <rect key="frame" x="246" y="119" width="54" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="173" y="122" width="54" height="21"/>
+                                </variation>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="snF-Hz-7h9">
+                                <rect key="frame" x="281" y="470" width="39" height="30"/>
+                                <state key="normal" title="Temp"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="181" y="470" width="39" height="30"/>
+                                </variation>
+                                <connections>
+                                    <segue destination="0vq-kb-7YA" kind="show" id="8GC-la-Fgl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
