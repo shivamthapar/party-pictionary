@@ -16,27 +16,59 @@ class TeamLobbyViewController: UIViewController {
     @IBOutlet weak var p3Lock: LockedInContainer!
     @IBOutlet weak var p4Lock: LockedInContainer!
     
-    var players = [PlayerDraggableView]()
-    var selectedPlayer: PlayerDraggableView? = nil
+    let playerService = PlayerServiceManager()
+    
+    var players = [Player]()
+    var playerViews = [PlayerDraggableView]()
+    var selectedPlayerView: PlayerDraggableView? = nil
+    var selectedPlayerIndex: Int? = nil
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        playerService.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let numPlayers = playersContainer.numPlayers
+        //let numPlayers = playersContainer.numPlayers
         
-        for i in 0..<numPlayers {
-            let playerPosition = getPlayerInitPosition(i)
-            let playerView = PlayerDraggableView(frame: CGRectMake(playerPosition.x, playerPosition.y, 50, 50))
-            let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(TeamLobbyViewController.detectPanOnPlayer(_:)))
-            playerView.gestureRecognizers = [panRecognizer]
-            super.view.addSubview(playerView)
-            players.append(playerView)
+        
+        
+    }
+    
+    func addPlayer(deviceId: String) {
+        
+        let i = players.count
+        let player = Player()
+        player.state = .Connected
+        players.append(player)
+        
+        
+        let playerPosition = getPlayerInitPosition(i)
+        let playerView = PlayerDraggableView(frame: CGRectMake(playerPosition.x, playerPosition.y, 50, 50))
+//        if(deviceId == UIDevice.currentDevice().name){
+//            playerView.myLabel.text = "me"
+//        }
+        playerView.myLabel.text = deviceId
+//        if(deviceId == UIDevice.currentDevice().name){
+//            let playerView = PlayerDraggableView(frame: CGRectMake(playerPosition.x, playerPosition.y, 50, 50))
+//        } else {
+//            let playerView = PlayerDraggableView(frame: CGRectMake(playerPosition.x, playerPosition.y, 50, 50), string: "me")
+//        }
+        playerView.initPos = playerView.centerCoordsFromOrigin(playerPosition)
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(TeamLobbyViewController.detectPanOnPlayer(_:)))
+        playerView.gestureRecognizers = [panRecognizer]
+        super.view.addSubview(playerView)
+        playerViews.append(playerView)
+    }
+    
+    func removeAllPlayers(){
+        for playerView in playerViews {
+            playerView.removeFromSuperview()
         }
+        playerViews.removeAll()
     }
     
     func getPlayerInitPosition(i: Int) -> CGPoint{
@@ -47,28 +79,89 @@ class TeamLobbyViewController: UIViewController {
         return CGPoint(x: pointX, y: pointY)
     }
     
+    private func getPlayerTeamFromViewTeam(view: LockedInContainer, player: Player) -> Player.Team {
+        switch view.team {
+        case 1:
+            return Player.Team.One
+        case 2:
+            return Player.Team.Two
+        default:
+            return Player.Team.NotAssigned
+        }
+
+    }
+    
+    private func getPlayerRoleFromViewRole(view: LockedInContainer, player: Player) -> Player.Role {
+        switch view.role {
+        case "guesser":
+            return Player.Role.Guesser
+        case "drawer":
+            return Player.Role.Drawer
+        default:
+            return Player.Role.None
+        }
+        
+    }
+    
     func detectPanOnPlayer(recognizer: UIPanGestureRecognizer) {
         switch recognizer.state {
         case .Ended:
-            print("touch ended")
             let point = recognizer.locationInView(self.view)
             if let touchedLock = lockTouched(point) {
-                if let player = selectedPlayer {
-                    player.moveToPoint(touchedLock.center, duration:0.2)
-                    player.lastLocation = player.center
-                }
-            } else {
-                if !CGRectContainsPoint(playersContainer.frame, point) {
-                    if let player = selectedPlayer {
-                        player.moveToPoint(playersContainer.center, duration:0.5)
+                if !lockContainsAPlayer(touchedLock){
+                    if let playerIndex = selectedPlayerIndex {
+                        let playerView = playerViews[playerIndex]
+                        playerView.moveToPoint(touchedLock.center, duration:0.2)
+                        playerView.lastLocation = playerView.center
+                        
+                        let player = players[playerIndex]
+                        player.team = getPlayerTeamFromViewTeam(touchedLock, player: player)
+                        player.role = getPlayerRoleFromViewRole(touchedLock, player: player)
                     }
                 }
+                else {
+                    print("lock contains a player!")
+                    if let playerIndex = selectedPlayerIndex {
+                        let playerView = playerViews[playerIndex]
+                        if let initPos = playerView.initPos {
+                            playerView.moveToPoint(initPos, duration:0.5)
+                        } else {
+                            playerView.moveToPoint(playersContainer.center, duration: 0.5)
+                        }
+                        
+                        let player = players[playerIndex]
+                        player.team = .NotAssigned
+                        player.role = .None
+                    }
+                }
+            } else {
+                if let playerIndex = selectedPlayerIndex {
+                    let playerView = playerViews[playerIndex]
+                    if let initPos = playerView.initPos {
+                        playerView.moveToPoint(initPos, duration:0.5)
+                    } else {
+                        playerView.moveToPoint(playersContainer.center, duration: 0.5)
+                    }
+                    
+                    let player = players[playerIndex]
+                    player.team = .NotAssigned
+                    player.role = .None
+                }
+                
             }
         default:
-            if let player = recognizer.view as? PlayerDraggableView {
-                selectedPlayer = player
+            if let playerView = recognizer.view as? PlayerDraggableView {
                 let translation = recognizer.translationInView(self.view)
-                player.center = CGPointMake(player.lastLocation.x + translation.x, player.lastLocation.y + translation.y)
+                playerView.center = CGPointMake(playerView.lastLocation.x + translation.x, playerView.lastLocation.y + translation.y)
+            }
+            
+            let point = recognizer.locationInView(self.view)
+            if lockTouched(point) == nil {
+                if let index = selectedPlayerIndex{
+                    let player = players[index]
+                    player.team = .NotAssigned
+                    player.role = .None
+                }
             }
         }
     }
@@ -90,24 +183,44 @@ class TeamLobbyViewController: UIViewController {
         return lock
     }
     
-    private func playerTouched(point: CGPoint) -> PlayerDraggableView? {
-        var touchedPlayer: PlayerDraggableView? = nil
-        for player in players {
-            if CGRectContainsPoint(player.frame, point) {
-                touchedPlayer = player
+    func lockContainsPlayer(lock: LockedInContainer, playerView: PlayerDraggableView, player: Player) -> Bool {
+        if CGRectContainsRect(lock.frame, playerView.frame){
+            if player.team != .NotAssigned && player.role != .None {
+                return true
             }
         }
-        return touchedPlayer
+        return false
     }
+    
+    func lockContainsAPlayer(lock: LockedInContainer) -> Bool {
+        for (index,playerView) in playerViews.enumerate() {
+            if lockContainsPlayer(lock, playerView: playerView, player: players[index]) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    private func getIndexOfPlayerTouched(point: CGPoint) -> Int? {
+        var playerIndex: Int? = nil
+        for (index, playerView) in playerViews.enumerate() {
+            if CGRectContainsPoint(playerView.frame, point) {
+                playerIndex = index
+            }
+        }
+        return playerIndex
+    }
+    
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first {
             let point = touch.locationInView(self.view)
-            if let touchedPlayer = playerTouched(point) {
-                self.view.bringSubviewToFront(touchedPlayer)
-                touchedPlayer.lastLocation = touchedPlayer.center
-                selectedPlayer = touchedPlayer
+            if let indexOfTouchedPlayer = getIndexOfPlayerTouched(point) {
+                let playerView = playerViews[indexOfTouchedPlayer]
+                self.view.bringSubviewToFront(playerView)
+                playerView.lastLocation = playerView.center
+                selectedPlayerIndex = indexOfTouchedPlayer
             }
         }
     }
@@ -119,5 +232,21 @@ class TeamLobbyViewController: UIViewController {
     }
     
     
+}
+
+extension TeamLobbyViewController: PlayerServiceManagerDelegate{
+    func connectedDevicesChanged(manager: PlayerServiceManager, connectedDevices: [String]) {
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            for connectedDevice in connectedDevices{
+                self.addPlayer(connectedDevice)
+            }
+        }
+    }
+    
+    func messageReceived(manager: PlayerServiceManager, message: String) {
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            NSLog("%@", "messageReceived")
+        }
+    }
 }
 
