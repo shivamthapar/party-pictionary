@@ -10,8 +10,13 @@ import UIKit
 
 class DrawViewController: UIViewController {
     
+     // Bluetooth
+    let bluetoothService = PlayerServiceManager()
+    
     var isSwiping = false
     var lastPoint = CGPoint.zero
+    var otherLastPoint = CGPoint.zero
+    
     var red: CGFloat = 0.0
     var green: CGFloat = 0.0
     var blue: CGFloat = 0.0
@@ -31,6 +36,19 @@ class DrawViewController: UIViewController {
         (1.0, 1.0, 1.0),
         ]
     
+    func drawLine(from: CGPoint, to: CGPoint) {
+        UIGraphicsBeginImageContext(self.mainImageView.frame.size)
+        self.mainImageView.image?.drawInRect(CGRectMake(0, 0, self.mainImageView.frame.size.width, self.mainImageView.frame.size.height))
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), to.x, to.y)
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), from.x, from.y)
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushWidth)
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(),red, green, blue, opacity)
+        CGContextStrokePath(UIGraphicsGetCurrentContext())
+        self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+    }
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         isSwiping = false
         saved_image.append(self.mainImageView.image)
@@ -43,33 +61,18 @@ class DrawViewController: UIViewController {
         isSwiping = true;
         if let touch = touches.first{
             let currentPoint = touch.locationInView(mainImageView)
-            UIGraphicsBeginImageContext(self.mainImageView.frame.size)
-            self.mainImageView.image?.drawInRect(CGRectMake(0, 0, self.mainImageView.frame.size.width, self.mainImageView.frame.size.height))
-            CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y)
-            CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y)
-            CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
-            CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushWidth)
-            CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(),red, green, blue, opacity)
-            CGContextStrokePath(UIGraphicsGetCurrentContext())
-            self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
+            drawLine(currentPoint, to: lastPoint)
+            let dictionary:NSDictionary = ["newPoint": NSValue(CGPoint: currentPoint)]
+            bluetoothService.sendMessage(dictionary)
             lastPoint = currentPoint
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
         if(!isSwiping) {
-            UIGraphicsBeginImageContext(self.mainImageView.frame.size)
-            self.mainImageView.image?.drawInRect(CGRectMake(0, 0, self.mainImageView.frame.size.width, self.mainImageView.frame.size.height))
-            CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
-            CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushWidth)
-            CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), red, green, blue, opacity)
-            CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y)
-            CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y)
-            CGContextStrokePath(UIGraphicsGetCurrentContext())
-            self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
+            drawLine(lastPoint, to: lastPoint)
+            let dictionary:NSDictionary = ["newPoint": NSValue(CGPoint: lastPoint)]
+            bluetoothService.sendMessage(dictionary)
         }
     }
     
@@ -134,5 +137,25 @@ extension DrawViewController: SettingsDrawViewControllerDelegate {
         self.green = settingsDrawViewController.green
         self.blue = settingsDrawViewController.blue
     }
+}
+
+extension DrawViewController: PlayerServiceManagerDelegate{
+    func connectedDevicesChanged(manager: PlayerServiceManager, connectedDevices: [String]) {
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            // do nothing
+        }
+    }
+    
+    func messageReceived(manager: PlayerServiceManager, message: NSDictionary) {
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            // message
+            NSLog("%@", NSStringFromCGPoint(message["lastPoint"]!.CGPointValue()))
+            if let point = message["lastPoint"] {
+                self.drawLine(self.otherLastPoint, to: point.CGPointValue())
+                self.otherLastPoint = point.CGPointValue()
+            }
+        }
+    }
+    
 }
 

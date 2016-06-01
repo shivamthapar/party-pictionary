@@ -243,7 +243,7 @@ extension TeamLobbyViewController: PlayerServiceManagerDelegate{
         }
     }
     
-    func messageReceived(manager: PlayerServiceManager, message: String) {
+    func messageReceived(manager: PlayerServiceManager, message: NSDictionary) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
             NSLog("%@", "messageReceived")
         }

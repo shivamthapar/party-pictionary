@@ -129,7 +129,7 @@
 				TargetAttributes = {
 					D52381461CEE729A00A38955 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 72BY659P56;
+						DevelopmentTeam = 8YN6KZJVFU;
 					};
 				};
 			};
@@ -300,7 +300,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "m117-project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shivamthapar.m117-project";
+				PRODUCT_BUNDLE_IDENTIFIER = ucla.cs117.andyyu.DrawCanvas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -314,7 +314,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "m117-project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shivamthapar.m117-project";
+				PRODUCT_BUNDLE_IDENTIFIER = ucla.cs117.andyyu.DrawCanvas;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

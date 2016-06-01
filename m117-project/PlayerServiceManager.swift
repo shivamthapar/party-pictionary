@@ -11,7 +11,7 @@ import MultipeerConnectivity
 
 protocol PlayerServiceManagerDelegate {
     func connectedDevicesChanged(manager: PlayerServiceManager, connectedDevices: [String])
-    func messageReceived(manager: PlayerServiceManager, message: String)
+    func messageReceived(manager: PlayerServiceManager, message: NSDictionary)
 }
 
 class PlayerServiceManager : NSObject {
@@ -30,12 +30,12 @@ class PlayerServiceManager : NSObject {
     
     var delegate: PlayerServiceManagerDelegate?
     
-    func sendMessage(message: String){
-        NSLog("%@", "sendMessage: \(message)")
+    func sendMessage(message: NSDictionary){
+        //NSLog("%@", "sendMessage: \(message)")
         if session.connectedPeers.count > 0 {
             //var error: NSError?
             do {
-                try self.session.sendData(message.dataUsingEncoding(NSUTF8StringEncoding)!, toPeers: session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
+                try self.session.sendData(NSKeyedArchiver.archivedDataWithRootObject(message), toPeers: session.connectedPeers, withMode: MCSessionSendDataMode.Reliable)
             } catch {
                 NSLog("%@", "\(error)")
             }
@@ -68,7 +68,7 @@ extension MCSessionState {
         case .NotConnected: return "NotConnected"
         case .Connecting: return "Connecting"
         case .Connected: return "Connected"
-        default: return "Unknown"
+        //default: return "Unknown"
         }
     }
 }
@@ -80,9 +80,8 @@ extension PlayerServiceManager: MCSessionDelegate {
     }
     
     func session(session: MCSession, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
-        NSLog("%@", "didReceiveData: \(data)")
-        let str = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        self.delegate?.messageReceived(self, message: str)
+        //NSLog("%@", "didReceiveData: \(data)")
+        self.delegate?.messageReceived(self, message: NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSDictionary)
     }
     
     func session(session: MCSession, didReceiveStream stream: NSInputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
