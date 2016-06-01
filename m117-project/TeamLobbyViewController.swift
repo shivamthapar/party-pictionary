@@ -38,6 +38,15 @@ class TeamLobbyViewController: UIViewController {
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "countdownSegue") {
+            if let svc = segue.destinationViewController as? CountdownViewController{
+                svc.playerService = playerService
+            }
+            
+        }
+    }
+    
     func addPlayer(deviceId: String) {
         
         let i = players.count

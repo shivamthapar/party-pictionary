@@ -11,7 +11,7 @@ import UIKit
 class DrawViewController: UIViewController {
     
      // Bluetooth
-    let bluetoothService = PlayerServiceManager()
+    var bluetoothService: PlayerServiceManager!
     
     var isSwiping = false
     var lastPoint = CGPoint.zero
@@ -94,6 +94,7 @@ class DrawViewController: UIViewController {
         blue  = (0.0/255.0)
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
+        self.bluetoothService.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
     
