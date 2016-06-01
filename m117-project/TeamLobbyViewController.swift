@@ -23,6 +23,9 @@ class TeamLobbyViewController: UIViewController {
     var selectedPlayerView: PlayerDraggableView? = nil
     var selectedPlayerIndex: Int? = nil
     
+    var lobbyList = [String](count: 4, repeatedValue: "")
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +55,7 @@ class TeamLobbyViewController: UIViewController {
         let i = players.count
         let player = Player()
         player.state = .Connected
+        player.id = deviceId
         players.append(player)
         
         
@@ -78,6 +82,7 @@ class TeamLobbyViewController: UIViewController {
             playerView.removeFromSuperview()
         }
         playerViews.removeAll()
+        players.removeAll()
     }
     
     func getPlayerInitPosition(i: Int) -> CGPoint{
@@ -240,21 +245,56 @@ class TeamLobbyViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
 }
 
 extension TeamLobbyViewController: PlayerServiceManagerDelegate{
     func connectedDevicesChanged(manager: PlayerServiceManager, connectedDevices: [String]) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
-            for connectedDevice in connectedDevices{
-                self.addPlayer(connectedDevice)
+            
+            if connectedDevices.count == 1 { // first pair - self and 2nd device
+                if connectedDevices[0] < UIDevice.currentDevice().name {
+                    if self.lobbyList[0] == "" && self.lobbyList[1] == "" {
+                        self.lobbyList[0] = connectedDevices[0]
+                        self.lobbyList[1] = UIDevice.currentDevice().name
+                    }
+                }
             }
+            else if connectedDevices.count == 2 { // 3rd device
+                if self.lobbyList.count != 0 {  // original pair does this (hopefully)
+                    if self.lobbyList[2] == "" {
+                        self.lobbyList[2] = connectedDevices[1]
+                        let message:NSDictionary = ["lobbyList": self.lobbyList.joinWithSeparator(",")]
+                        self.playerService.sendMessage(message)
+                    }
+                }
+            }
+            else if connectedDevices.count == 3 { // 4th device
+                if self.lobbyList.count != 0 {  // original pair does this (hopefully)
+                    if self.lobbyList[3] == "" {
+                        self.lobbyList[3] = connectedDevices[2]
+                        let message:NSDictionary = ["lobbyList": self.lobbyList.joinWithSeparator(",")]
+                        self.playerService.sendMessage(message)
+                    }
+                }
+            }
+//            for connectedDevice in connectedDevices{
+//                self.addPlayer(connectedDevice)
+//            }
         }
     }
     
     func messageReceived(manager: PlayerServiceManager, message: NSDictionary) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
             NSLog("%@", "messageReceived")
+            if let lobby_string = message["lobbyList"] {
+                self.lobbyList = lobby_string.componentsSeparatedByString(",")
+                self.removeAllPlayers()
+                for id in self.lobbyList {
+                    if id != "" {
+                        self.addPlayer(id)
+                    }
+                }
+            }
         }
     }
 }

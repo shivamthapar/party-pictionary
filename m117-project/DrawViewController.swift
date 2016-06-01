@@ -14,6 +14,7 @@ class DrawViewController: UIViewController {
     var bluetoothService: PlayerServiceManager!
     
     var isSwiping = false
+    var other_isSwiping = false
     var lastPoint = CGPoint.zero
     var otherLastPoint = CGPoint.zero
     
@@ -24,6 +25,8 @@ class DrawViewController: UIViewController {
     var opacity: CGFloat = 1.0
     
     var saved_image = [UIImage?]()
+    
+    var my_team = -1
     
     let colors: [(CGFloat, CGFloat, CGFloat)] = [
         (0, 0, 0),
@@ -55,6 +58,8 @@ class DrawViewController: UIViewController {
         if let touch = touches.first{
             lastPoint = touch.locationInView(mainImageView)
         }
+        let dictionary:NSDictionary = ["newPoint": NSValue(CGPoint: lastPoint), "team": my_team]
+        bluetoothService.sendMessage(dictionary)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -62,7 +67,7 @@ class DrawViewController: UIViewController {
         if let touch = touches.first{
             let currentPoint = touch.locationInView(mainImageView)
             drawLine(currentPoint, to: lastPoint)
-            let dictionary:NSDictionary = ["newPoint": NSValue(CGPoint: currentPoint)]
+            let dictionary = ["drawPoint": NSValue(CGPoint: currentPoint), "team": my_team]
             bluetoothService.sendMessage(dictionary)
             lastPoint = currentPoint
         }
@@ -71,7 +76,7 @@ class DrawViewController: UIViewController {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if(!isSwiping) {
             drawLine(lastPoint, to: lastPoint)
-            let dictionary:NSDictionary = ["newPoint": NSValue(CGPoint: lastPoint)]
+            let dictionary:NSDictionary = ["lastPoint": NSValue(CGPoint: lastPoint), "team": my_team]
             bluetoothService.sendMessage(dictionary)
         }
     }
@@ -107,10 +112,14 @@ class DrawViewController: UIViewController {
         if let image = saved_image.popLast() {
             self.mainImageView.image = image
         }
+        let dictionary:NSDictionary = ["undo": "_", "team": my_team]
+        bluetoothService.sendMessage(dictionary)
     }
     
     @IBAction func reset(sender: UIButton) {
         self.mainImageView.image = nil
+        let dictionary:NSDictionary = ["reset": "_", "team": my_team]
+        bluetoothService.sendMessage(dictionary)
     }
     
     @IBAction func pencilPressed(sender: UIButton) {
@@ -122,10 +131,14 @@ class DrawViewController: UIViewController {
         
         // set RGB values
         (red, green, blue) = colors[index]
+        let dictionary:NSDictionary = ["settings": 1, "red": red, "green": green, "blue": blue, "opacity": opacity, "brush": brushWidth, "team": my_team]
+        bluetoothService.sendMessage(dictionary)
         
         // eraser
         if index == colors.count - 1 {
             opacity = 1.0
+            let dictionary:NSDictionary = ["erase": "_", "team": my_team]
+            bluetoothService.sendMessage(dictionary)
         }
     }
 }
@@ -137,6 +150,8 @@ extension DrawViewController: SettingsDrawViewControllerDelegate {
         self.red = settingsDrawViewController.red
         self.green = settingsDrawViewController.green
         self.blue = settingsDrawViewController.blue
+        let dictionary:NSDictionary = ["settings": 1, "red": red, "green": green, "blue": blue, "opacity": opacity, "brush": brushWidth, "team": my_team]
+        bluetoothService.sendMessage(dictionary)
     }
 }
 
@@ -150,13 +165,35 @@ extension DrawViewController: PlayerServiceManagerDelegate{
     func messageReceived(manager: PlayerServiceManager, message: NSDictionary) {
         NSOperationQueue.mainQueue().addOperationWithBlock {
             // message
-            NSLog("%@", NSStringFromCGPoint(message["lastPoint"]!.CGPointValue()))
-            if let point = message["lastPoint"] {
+            if let point = message["newPoint"] {
+                self.other_isSwiping = true
+                self.otherLastPoint = point.CGPointValue()
+                self.saved_image.append(self.mainImageView.image)
+            }
+            else if let point = message["drawPoint"] {
                 self.drawLine(self.otherLastPoint, to: point.CGPointValue())
                 self.otherLastPoint = point.CGPointValue()
             }
+            else if let point = message["endPoint"] {
+                self.other_isSwiping = false
+                self.drawLine(self.otherLastPoint, to: point.CGPointValue())
+            }
+            else if message["undo"] != nil {
+                if let image = self.saved_image.popLast() {
+                    self.mainImageView.image = image
+                }
+            }
+            else if message["reset"] != nil {
+                self.mainImageView.image = nil
+            }
+            else if message["settings"] != nil {
+                self.red = message["red"] as! CGFloat
+                self.green = message["green"] as! CGFloat
+                self.blue = message["blue"] as! CGFloat
+                self.opacity = message["opacity"] as! CGFloat
+                self.brushWidth = message["brush"] as! CGFloat
+            }
         }
     }
-    
 }
 

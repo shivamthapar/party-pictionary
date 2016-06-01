@@ -10,6 +10,8 @@ import Foundation
 
 class Player {
     var playerNumber = 0
+    var id: String? = nil
+    var ready = false
     var state = State.Disconnected
     var team = Team.NotAssigned {
         didSet {

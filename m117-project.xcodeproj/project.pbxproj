@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A1C3A8B41CF7F2370095A50A /* SettingsDrawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C3A8B31CF7F2370095A50A /* SettingsDrawViewController.swift */; };
+		A1F0A2641CFEE63E00647450 /* NewTeamLobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0A2631CFEE63E00647450 /* NewTeamLobbyViewController.swift */; };
+		A1F0A2661CFF064100647450 /* GuessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0A2651CFF064100647450 /* GuessViewController.swift */; };
 		D5226A471CF6623500B124CE /* PlayerServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5226A461CF6623500B124CE /* PlayerServiceManager.swift */; };
 		D523814B1CEE729A00A38955 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523814A1CEE729A00A38955 /* AppDelegate.swift */; };
 		D523814D1CEE729A00A38955 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523814C1CEE729A00A38955 /* MenuViewController.swift */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		A1C3A8B31CF7F2370095A50A /* SettingsDrawViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDrawViewController.swift; sourceTree = "<group>"; };
+		A1F0A2631CFEE63E00647450 /* NewTeamLobbyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTeamLobbyViewController.swift; sourceTree = "<group>"; };
+		A1F0A2651CFF064100647450 /* GuessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuessViewController.swift; sourceTree = "<group>"; };
 		D5226A461CF6623500B124CE /* PlayerServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerServiceManager.swift; sourceTree = "<group>"; };
 		D52381471CEE729A00A38955 /* m117-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "m117-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D523814A1CEE729A00A38955 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 				D523814C1CEE729A00A38955 /* MenuViewController.swift */,
 				D5DD9A441CEEBB900041E427 /* BluetoothConnectionViewController.swift */,
 				D523814E1CEE729A00A38955 /* Main.storyboard */,
+				A1F0A2651CFF064100647450 /* GuessViewController.swift */,
 				D53D402C1CEFC66F00E4392A /* TeamLobbyViews.swift */,
 				D5DD9A4A1CEEBF0F0041E427 /* SettingsDeviceViewController.swift */,
 				D5DD9A4C1CEEBF420041E427 /* SettingsGameViewController.swift */,
@@ -93,6 +98,7 @@
 				D52381531CEE729A00A38955 /* LaunchScreen.storyboard */,
 				D52381561CEE729A00A38955 /* Info.plist */,
 				D5226A461CF6623500B124CE /* PlayerServiceManager.swift */,
+				A1F0A2631CFEE63E00647450 /* NewTeamLobbyViewController.swift */,
 			);
 			path = "m117-project";
 			sourceTree = "<group>";
@@ -129,7 +135,7 @@
 				TargetAttributes = {
 					D52381461CEE729A00A38955 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 72BY659P56;
+						DevelopmentTeam = 8YN6KZJVFU;
 					};
 				};
 			};
@@ -175,12 +181,14 @@
 				D5DD9A4D1CEEBF420041E427 /* SettingsGameViewController.swift in Sources */,
 				D5DD9A4B1CEEBF0F0041E427 /* SettingsDeviceViewController.swift in Sources */,
 				D523814D1CEE729A00A38955 /* MenuViewController.swift in Sources */,
+				A1F0A2661CFF064100647450 /* GuessViewController.swift in Sources */,
 				D523815F1CEE8D1400A38955 /* IntroScreenViewController.swift in Sources */,
 				D5DD9A471CEEBC800041E427 /* TeamLobbyViewController.swift in Sources */,
 				D523815D1CEE831F00A38955 /* DrawViewController.swift in Sources */,
 				D53D402D1CEFC66F00E4392A /* TeamLobbyViews.swift in Sources */,
 				A1C3A8B41CF7F2370095A50A /* SettingsDrawViewController.swift in Sources */,
 				D523814B1CEE729A00A38955 /* AppDelegate.swift in Sources */,
+				A1F0A2641CFEE63E00647450 /* NewTeamLobbyViewController.swift in Sources */,
 				D5DD9A451CEEBB900041E427 /* BluetoothConnectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +308,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "m117-project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shivamthapar.DrawCanvas;
+				PRODUCT_BUNDLE_IDENTIFIER = "ucla.cs117.andyyu.pictionary-party";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -314,7 +322,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "m117-project/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shivamthapar.DrawCanvas;
+				PRODUCT_BUNDLE_IDENTIFIER = "ucla.cs117.andyyu.pictionary-party";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

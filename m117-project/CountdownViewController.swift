@@ -11,9 +11,12 @@ import UIKit
 class CountdownViewController: UIViewController {
     
     var playerService: PlayerServiceManager!
+    var team = -1
+    var role = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(CountdownViewController.timerComplete), userInfo: nil, repeats: false)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -26,9 +29,25 @@ class CountdownViewController: UIViewController {
         if (segue.identifier == "drawSegue") {
             if let svc = segue.destinationViewController as? DrawViewController{
                 svc.bluetoothService = playerService
-                print("player sent to draw")
+                svc.my_team = team
             }
             
+        }
+        if (segue.identifier == "guessSegue") {
+            if let svc = segue.destinationViewController as? GuessViewController{
+                svc.bluetoothService = playerService
+                svc.my_team = team
+            }
+            
+        }
+    }
+    
+    func timerComplete() {
+        if(role == 1) {
+            self.performSegueWithIdentifier("drawSegue", sender: nil)
+        }
+        else if(role == 2) {
+            self.performSegueWithIdentifier("guessSegue", sender: nil)
         }
     }
     
