@@ -42,17 +42,20 @@ class DrawViewController: UIViewController {
     func drawLine(from: CGPoint, to: CGPoint) {
         UIGraphicsBeginImageContext(self.mainImageView.frame.size)
         self.mainImageView.image?.drawInRect(CGRectMake(0, 0, self.mainImageView.frame.size.width, self.mainImageView.frame.size.height))
-        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), to.x, to.y)
-        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), from.x, from.y)
-        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
-        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushWidth)
-        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(),red, green, blue, opacity)
-        CGContextStrokePath(UIGraphicsGetCurrentContext())
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext()!, to.x, to.y)
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext()!, from.x, from.y)
+        CGContextSetLineCap(UIGraphicsGetCurrentContext()!, CGLineCap.Round)
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext()!, brushWidth)
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext()!,red, green, blue, opacity)
+        CGContextStrokePath(UIGraphicsGetCurrentContext()!)
         self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if word.hidden == false {
+            return
+        }
         isSwiping = false
         saved_image.append(self.mainImageView.image)
         if let touch = touches.first{
@@ -63,6 +66,9 @@ class DrawViewController: UIViewController {
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if word.hidden == false {
+            return
+        }
         isSwiping = true;
         if let touch = touches.first{
             let currentPoint = touch.locationInView(mainImageView)
@@ -74,6 +80,10 @@ class DrawViewController: UIViewController {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if word.hidden == false {
+            word.hidden = true
+            return
+        }
         if(!isSwiping) {
             drawLine(lastPoint, to: lastPoint)
             let dictionary:NSDictionary = ["lastPoint": NSValue(CGPoint: lastPoint), "team": my_team]
@@ -91,6 +101,7 @@ class DrawViewController: UIViewController {
         settingsViewController.blue = blue
     }
     
+    @IBOutlet weak var word: UILabel!
     @IBOutlet weak var mainImageView: UIImageView!
     
     override func viewDidLoad() {

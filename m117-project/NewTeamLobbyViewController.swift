@@ -12,9 +12,23 @@ class NewTeamLobbyViewController: UIViewController {
     
     var my_team = -1    // 1 is team 1, 2 is team 2, -1 is unassigned
     var my_role = -1    // 1 is drawer, 2 is guesser, -1 is unassigned
-    var lights = 0
     var ready_pressed = false
     var players = [String: [String: Int]]()
+    var lights = 0 {
+        didSet {
+            for i in 0 ..< 4 {
+                lightArray[i].image = UIImage(named: "empty_light")
+            }
+            for i in 0 ..< lights {
+                lightArray[i].image = UIImage(named: "light")
+            }
+            if lights == 2 {
+                 self.performSegueWithIdentifier("countdownSegue", sender: nil)
+            }
+        }
+    }
+    var lightArray = [UIImageView]()
+    var playerService : PlayerServiceManager! // bluetooth
     
     @IBOutlet weak var teamSlider: UISlider!
     @IBOutlet weak var roleSlider: UISlider!
@@ -41,6 +55,10 @@ class NewTeamLobbyViewController: UIViewController {
         sender.setValue(roundSliderValue(sender.value), animated: true)
     }
     
+    @IBOutlet weak var light1: UIImageView!
+    @IBOutlet weak var light2: UIImageView!
+    @IBOutlet weak var light3: UIImageView!
+    @IBOutlet weak var light4: UIImageView!
     
     @IBAction func readyButtonPressed(sender: UIButton) {
         for (_, value) in players {
@@ -64,14 +82,11 @@ class NewTeamLobbyViewController: UIViewController {
             // change color of button to original state
             let message:NSDictionary = ["player_unready": UIDevice.currentDevice().name, "team": -1, "role": -1]
             self.playerService.sendMessage(message)
+            self.lights -= 1
             ready_pressed = false
         }
     }
-    
-    let playerService = PlayerServiceManager()
-    
-    
-    
+
     func roundSliderValue(x: Float) -> Float {
         if(x < 0.5) {
             return 0
@@ -81,6 +96,18 @@ class NewTeamLobbyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "lobby_bg")?.drawInRect(self.view.bounds)
+        
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        self.view.backgroundColor = UIColor(patternImage: image)
+        
+        lightArray = [light1, light2, light3, light4]
+        
         warningLabel.hidden = true
         self.playerService.delegate = self
         // Do any additional1 setup after loading the view, typically from a nib.

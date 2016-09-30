@@ -92,26 +92,26 @@ class SettingsDrawViewController: UIViewController {
         UIGraphicsBeginImageContext(imageViewBrush.frame.size)
         var context = UIGraphicsGetCurrentContext()
         
-        CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextSetLineWidth(context, brush)
+        CGContextSetLineCap(context!, CGLineCap.Round)
+        CGContextSetLineWidth(context!, brush)
         
-        CGContextSetRGBStrokeColor(context, red, green, blue, 1.0)
-        CGContextMoveToPoint(context, 45.0, 45.0)
-        CGContextAddLineToPoint(context, 45.0, 45.0)
-        CGContextStrokePath(context)
+        CGContextSetRGBStrokeColor(context!, red, green, blue, 1.0)
+        CGContextMoveToPoint(context!, 45.0, 45.0)
+        CGContextAddLineToPoint(context!, 45.0, 45.0)
+        CGContextStrokePath(context!)
         imageViewBrush.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         UIGraphicsBeginImageContext(imageViewBrush.frame.size)
         context = UIGraphicsGetCurrentContext()
         
-        CGContextSetLineCap(context, CGLineCap.Round)
-        CGContextSetLineWidth(context, 20)
-        CGContextMoveToPoint(context, 45.0, 45.0)
-        CGContextAddLineToPoint(context, 45.0, 45.0)
+        CGContextSetLineCap(context!, CGLineCap.Round)
+        CGContextSetLineWidth(context!, 20)
+        CGContextMoveToPoint(context!, 45.0, 45.0)
+        CGContextAddLineToPoint(context!, 45.0, 45.0)
         
-        CGContextSetRGBStrokeColor(context, red, green, blue, opacity)
-        CGContextStrokePath(context)
+        CGContextSetRGBStrokeColor(context!, red, green, blue, opacity)
+        CGContextStrokePath(context!)
         imageViewOpacity.image = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()

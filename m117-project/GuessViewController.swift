@@ -41,12 +41,12 @@ class GuessViewController: UIViewController {
     func drawLine(from: CGPoint, to: CGPoint) {
         UIGraphicsBeginImageContext(self.mainImageView.frame.size)
         self.mainImageView.image?.drawInRect(CGRectMake(0, 0, self.mainImageView.frame.size.width, self.mainImageView.frame.size.height))
-        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), to.x, to.y)
-        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), from.x, from.y)
-        CGContextSetLineCap(UIGraphicsGetCurrentContext(), CGLineCap.Round)
-        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushWidth)
-        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(),red, green, blue, opacity)
-        CGContextStrokePath(UIGraphicsGetCurrentContext())
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext()!, to.x, to.y)
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext()!, from.x, from.y)
+        CGContextSetLineCap(UIGraphicsGetCurrentContext()!, CGLineCap.Round)
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext()!, brushWidth)
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext()!,red, green, blue, opacity)
+        CGContextStrokePath(UIGraphicsGetCurrentContext()!)
         self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
