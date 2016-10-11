@@ -4,8 +4,10 @@
 </p>
 <p align="center"><sup><strong>An iOS app demonstrating Bluetooth networking techniques for games requiring multi-team real-time communication. </strong></sup></p>
 
-<img src="https://rawgit.com/andyyu/party-pictionary/master/m117-project/Assets.xcassets/misc/gif1.gif"
+<p align="center">
+    <img src="https://rawgit.com/andyyu/party-pictionary/master/m117-project/Assets.xcassets/misc/gif1.gif"
          height="250">
+</p>
 
 ## The Game
 Party Pictionary takes the popular party game "Pictionary" and puts it in the convenience of your mobile devices. No board games, paper, or markers required!
